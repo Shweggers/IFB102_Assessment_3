@@ -1,0 +1,43 @@
+<!--
+    Copyright 2023 Google LLC
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        https://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Address Selection</title>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="card-container">
+      <div class="panel">
+        <div>
+          <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt=""/>
+          <span class="sb-title">Address Selection</span>
+        </div>
+        <input type="text" placeholder="Address" id="location-input" />
+        <input type="text" placeholder="Apt, Suite, etc (optional)" />
+        <input type="text" placeholder="City" id="locality-input" />
+        <div class="half-input-container">
+          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input"/>
+          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
+        </div>
+        <input type="text" placeholder="Country" id="country-input" />
+        <button class="button-cta">Start Tracking</button>
+      </div>
+      <div class="map" id="gmp-map"></div>
+    </div>
+  </body>
+</html>
