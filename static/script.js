@@ -112,6 +112,12 @@ function initMap() {
   button.addEventListener("click", () => {
     const markerPosition = marker.getPosition();
     if (markerPosition == null || markerPosition == undefined) return;
+    return;
+/*  
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("lat", markerPosition.lat());
+    searchParams.set("lon", markerPosition.lng());
+    window.location.search = searchParams.toString(); */
   });
 
   if (_default !== null) {
