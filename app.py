@@ -112,6 +112,8 @@ def routeToGlowbit():
         stick.pixelsShow()
     stick.pixelSet(lights, colour)
     stick.pixelsShow()
+
+    print("Lights: " + str(lights) + ", Remainder: " + str(remainder))
     return "OK"
 
 
