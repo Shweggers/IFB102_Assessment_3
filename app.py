@@ -12,9 +12,6 @@ app = Flask(__name__)
 stick = glowbit.stick(pin=12)
 
 
-stick.clear()
-
-
 def getISSPosition():
     # retrieved from:
     # http://open-notify.org/Open-Notify-API/ISS-Location-Now/
