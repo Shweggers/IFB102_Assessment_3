@@ -105,8 +105,10 @@ function initMap() {
     marker.setVisible(true);
 
     // Redirect to search page from autocomplete
-    const markerPosition = place.geometry.location;
-    window.location.href = `search//?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("lat", place.geometry.location.lat());
+    searchParams.set("lon", place.geometry.location.lng());
+    window.location.search = searchParams.toString();
   }
 
   // Redirect to search page from button
@@ -115,7 +117,10 @@ function initMap() {
     const markerPosition = marker.getPosition();
     if (markerPosition == null || markerPosition == undefined) return;
 
-    window.location.href = `search//?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("lat", markerPosition.lat());
+    searchParams.set("lon", markerPosition.lng());
+    window.location.search = searchParams.toString();
   });
 
   if (_default !== null) {
