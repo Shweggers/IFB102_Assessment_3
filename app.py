@@ -114,6 +114,6 @@ def routeToGlowbit():
         stick.set_pixel(i, glowbit.colourFunctions.green())
     stick.set_pixel(lights, colour)
 
-    stick.pixelSet()
+    stick.pixelsShow()
 
 app.run()
