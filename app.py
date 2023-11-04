@@ -112,6 +112,7 @@ def routeToGlowbit():
     stick.pixelSet(lights, colour)
 
     stick.pixelsShow()
+    return "OK"
 
 
 app.run("0.0.0.0", port=5000)
