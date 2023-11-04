@@ -15,29 +15,144 @@
   -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Address Selection</title>
-    <link rel="stylesheet" href="/static/style.css"/>
-    <script src="/static/script.js"></script>
-  </head>
-  <body>
-    <div class="card-container">
-      <div class="panel">
-        <div>
-          <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt=""/>
-          <span class="sb-title">Address Selection</span>
-        </div>
-        <input type="text" placeholder="Address" id="location-input" />
-        <input type="text" placeholder="Apt, Suite, etc (optional)" />
-        <input type="text" placeholder="City" id="locality-input" />
-        <div class="half-input-container">
-          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input"/>
-          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
-        </div>
-        <input type="text" placeholder="Country" id="country-input" />
-        <button class="button-cta">Start Tracking</button>
+
+<head>
+  <title>Address Selection</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="/static/customs.css" />
+  <script src="/static/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="card-container">
+    <div class="panel">
+      <div>
+        <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg"
+          alt="" />
+        <span class="sb-title">Address Selection</span>
       </div>
-      <div class="map" id="gmp-map"></div>
+      <input type="text" placeholder="Address" id="location-input" />
+      <input type="text" placeholder="Apt, Suite, etc (optional)" />
+      <input type="text" placeholder="City" id="locality-input" />
+      <div class="half-input-container">
+        <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input" />
+        <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" />
+      </div>
+      <input type="text" placeholder="Country" id="country-input" />
+      <button class="button-cta" id="button-redirect">Track</button>
     </div>
-  </body>
+    <div class="map" id="gmp-map"></div>
+  </div>
+  <div class="card-container">
+    {% for key, value in data.items() %}
+    <p class="results">
+      {{ key }}: {{ value }}
+    </p>
+    {% endfor %}
+    </p>
+  </div>
+
+  <script>
+    const requestURL = "http://api.open-notify.org/iss-now.json";
+
+    const params = new URLSearchParams(window.location.search);
+    var _default = null;
+    if (params.has("lat") && params.has("lon")) {
+      _default = {
+        lat: parseFloat(params.get("lat")),
+        lng: parseFloat(params.get("lon")),
+      };
+    }
+    else {
+      _default = {
+        lat: 37.4221,
+        lng: -122.0841,
+      };
+    }
+
+    setInterval(
+      function () {
+        fetch(requestURL)
+        .then(response => response.json())
+        .then(_data => {
+          var lon1 = parseFloat(_data.iss_position.longitude);
+          var lat1 = parseFloat(_data.iss_position.latitude);
+          var lon2 = _default.lng;
+          var lat2 = _default.lat;
+
+          var processedData = processData(lon1, lat1, lon2, lat2);
+
+          var results = document.getElementsByClassName("results");
+          for (var i = 0; i < results.length; i++) {
+            results[i].innerHTML = `${Object.keys(processedData)[i].toString()}: ${Object.values(processedData)[i].toString()}`;
+          }
+        
+        // Retrieved from:
+        // https://www.geeksforgeeks.org/pass-javascript-variables-to-python-in-flask/
+        $.ajax({
+          url: "/glowbit",
+          type: "POST",
+          data: {
+            "lights": processedData.lights,
+            "remainder": processedData.remainder,
+          },
+          // Retrieved from:
+          // https://stackoverflow.com/questions/49033054/how-do-i-send-and-receive-multiple-selection-values-as-ajax-data
+          traditional: true,
+          error: function (error) {
+            console.log(error);
+          }
+        })
+        });
+      },
+      1000
+    );
+
+    function haversine(lon1, lat1, lon2, lat2) {
+      var _lat1 = degToRad(lat1);
+      var _lat2 = degToRad(lat2);
+
+      var dlon = degToRad(lon2 - lon1);
+      var dlat = degToRad(lat2 - lat1);
+
+      var a = Math.pow(Math.sin(dlat / 2), 2) + Math.cos(_lat1) * Math.cos(_lat2) * Math.pow(Math.sin(dlon / 2), 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var r = 6371;
+      return c * r;
+    }
+
+    function getRatio(distance) {
+      var m = 20004;
+      return 1 - Math.min(distance / m, 1);
+    }
+
+    function processData(lon1, lat1, lon2, lat2) {
+      var distance = haversine(lon1, lat1, lon2, lat2);
+      var ratio = getRatio(distance);
+
+      var lights = Math.floor(ratio * 8);
+      var remainder = ratio;
+
+      var _data = {
+        "distance": distance,
+        "lights": lights,
+        "remainder": remainder
+      };
+
+      return _data;
+    }
+
+    function degToRad(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+
+    function radToDeg(rad) {
+      return rad / (Math.PI / 180);
+    }
+
+  </script>
+</body>
+
 </html>

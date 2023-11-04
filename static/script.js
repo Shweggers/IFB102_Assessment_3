@@ -5,10 +5,20 @@ script.async = true;
 
 // Attach your callback function to the `window` object
 function initMap() {
+
+  const params = new URLSearchParams(window.location.search);
+  var _default = null;
+  if (params.has("lat") && params.has("lon")) {
+    _default = {
+      lat: parseFloat(params.get("lat")),
+      lng: parseFloat(params.get("lon")),
+    };
+  }
+  
   const CONFIGURATION = {
-    ctaTitle: "Start Tracking",
+    ctaTitle: "Track",
     mapOptions: {
-      center: { lat: 37.4221, lng: -122.0841 },
+      center: _default ?? { lat: 37.4221, lng: -122.0841 },
       fullscreenControl: true,
       mapTypeControl: false,
       streetViewControl: true,
@@ -36,7 +46,7 @@ function initMap() {
     document.getElementById(component + "-input");
   const map = new google.maps.Map(document.getElementById("gmp-map"), {
     zoom: CONFIGURATION.mapOptions.zoom,
-    center: { lat: 37.4221, lng: -122.0841 },
+    center: _default ?? { lat: 37.4221, lng: -122.0841 },
     mapTypeControl: false,
     fullscreenControl: CONFIGURATION.mapOptions.fullscreenControl,
     zoomControl: CONFIGURATION.mapOptions.zoomControl,
@@ -93,8 +103,28 @@ function initMap() {
     map.setCenter(place.geometry.location);
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
+
+    // Redirect to search page from autocomplete
+    const markerPosition = place.geometry.location;
+    window.location.href = `search/?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
+  }
+
+  // Redirect to search page from button
+  const button = document.getElementById("button-redirect");
+  button.addEventListener("click", () => {
+    const markerPosition = marker.getPosition();
+    if (markerPosition == null || markerPosition == undefined) return;
+
+    window.location.href = `search/?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
+  });
+
+  if (_default !== null) {
+    marker.setPosition(_default);
+    marker.setVisible(true);
   }
 }
 
 // Append the 'script' element to 'head'
 document.head.appendChild(script);
+
+
