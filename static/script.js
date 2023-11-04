@@ -6,7 +6,7 @@ script.async = true;
 // Attach your callback function to the `window` object
 function initMap() {
 
-  const params = new URLSearchParams(window.location.search);
+  var params = new URLSearchParams(window.location.search);
   var _default = null;
   if (params.has("lat") && params.has("lon")) {
     _default = {
@@ -108,7 +108,7 @@ function initMap() {
     var searchParams = new URLSearchParams(window.location.search);
     searchParams.set("lat", place.geometry.location.lat());
     searchParams.set("lon", place.geometry.location.lng());
-    window.location.search = searchParams.toString();
+    // window.location.search = searchParams.toString();
   }
 
   // Redirect to search page from button
