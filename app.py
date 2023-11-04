@@ -10,6 +10,7 @@ from math import radians, cos, sin, asin, sqrt
 
 app = Flask(__name__)
 stick = glowbit.stick(pin=12)
+stick.demo()
 
 
 def getISSPosition():
