@@ -105,10 +105,6 @@ function initMap() {
     marker.setVisible(true);
 
     // Redirect to search page from autocomplete
-    var searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("lat", place.geometry.location.lat());
-    searchParams.set("lon", place.geometry.location.lng());
-    window.location.search = searchParams.toString();
   }
 
   // Redirect to search page from button
@@ -116,11 +112,6 @@ function initMap() {
   button.addEventListener("click", () => {
     const markerPosition = marker.getPosition();
     if (markerPosition == null || markerPosition == undefined) return;
-
-    var searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("lat", markerPosition.lat());
-    searchParams.set("lon", markerPosition.lng());
-    window.location.search = searchParams.toString();
   });
 
   if (_default !== null) {
