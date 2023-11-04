@@ -103,7 +103,7 @@ def routeToGlowbit():
     while lights >= 8:
         lights -= 1
 
-    colour = glowbit.colourFunctions.rgbColour(
+    colour = stick.rgbColour(
         r = 255 - min(int(remainder * 255), 255),
         g = min(int(remainder * 255), 255), b = 0)
 
