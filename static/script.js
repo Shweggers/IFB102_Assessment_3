@@ -14,7 +14,7 @@ function initMap() {
       lng: parseFloat(params.get("lon")),
     };
   }
-  
+
   const CONFIGURATION = {
     ctaTitle: "Track",
     mapOptions: {
@@ -106,7 +106,7 @@ function initMap() {
 
     // Redirect to search page from autocomplete
     const markerPosition = place.geometry.location;
-    window.location.href = `search/?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
+    window.location.href = `search//?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
   }
 
   // Redirect to search page from button
@@ -115,7 +115,7 @@ function initMap() {
     const markerPosition = marker.getPosition();
     if (markerPosition == null || markerPosition == undefined) return;
 
-    window.location.href = `search/?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
+    window.location.href = `search//?lat=${markerPosition.lat()}&lon=${markerPosition.lng()}`;
   });
 
   if (_default !== null) {
