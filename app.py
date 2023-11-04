@@ -9,8 +9,7 @@ from math import radians, cos, sin, asin, sqrt
 
 
 app = Flask(__name__)
-stick = glowbit.stick(pin=12)
-stick.demo()
+stick = glowbit.stick()
 
 
 def getISSPosition():
@@ -110,8 +109,8 @@ def routeToGlowbit():
 
     for i in range(lights):
         stick.pixelSet(i, stick.green())
+        stick.pixelsShow()
     stick.pixelSet(lights, colour)
-
     stick.pixelsShow()
     return "OK"
 
