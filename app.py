@@ -109,7 +109,8 @@ def routeToGlowbit():
 
     for i in range(lights):
         stick.pixelSet(i, stick.green())
-        stick.pixelsShow()
+    for i in range(lights + 1, 8):
+        stick.pixelSet(i, stick.black())
     stick.pixelSet(lights, colour)
     stick.pixelsShow()
 
