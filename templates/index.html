@@ -57,7 +57,7 @@
   <script>
     const requestURL = "http://api.open-notify.org/iss-now.json";
 
-    const params = new URLSearchParams(window.location.search);
+    var params = new URLSearchParams(window.location.search);
     var _default = null;
     if (params.has("lat") && params.has("lon")) {
       _default = {

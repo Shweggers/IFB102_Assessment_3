@@ -108,7 +108,7 @@ function initMap() {
     var searchParams = new URLSearchParams(window.location.search);
     searchParams.set("lat", place.geometry.location.lat());
     searchParams.set("lon", place.geometry.location.lng());
-    // window.location.search = searchParams.toString();
+    window.location.search = searchParams.toString();
   }
 
   // Redirect to search page from button
